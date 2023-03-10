@@ -1,119 +1,120 @@
-var ProductHover0 = document.querySelectorAll('.product-card')[0];
-ProductHover0.addEventListener('mouseover', function () {
-  document.querySelectorAll('.product-card')[0].style.setProperty("--filter", "drop-shadow(0 4px 13px rgba(0, 0, 0, 0.25))");
-  document.querySelectorAll('.product-card-image')[0].style.setProperty("--display", "none");
-  document.querySelectorAll('.product-card-buttons')[0].style.setProperty("--display", "flex");
-});
-ProductHover0.addEventListener('mouseout', function () {
-  document.querySelectorAll('.product-card')[0].style.setProperty("--filter", "none");
-  document.querySelectorAll('.product-card-image')[0].style.setProperty("--display", "flex");
-  document.querySelectorAll('.product-card-buttons')[0].style.setProperty("--display", "none");
-});
+let n = document.querySelector('.products-list').childElementCount; // определяем количество продуктовых карточек на экране
+console.log('n= ' + n);
 
-var ProductHover1 = document.querySelectorAll('.product-card')[1];
-ProductHover1.addEventListener('mouseover', function () {
-  document.querySelectorAll('.product-card')[1].style.setProperty("--filter", "drop-shadow(0 4px 13px rgba(0, 0, 0, 0.25))");
-  document.querySelectorAll('.product-card-image')[1].style.setProperty("--display", "none");
-  document.querySelectorAll('.product-card-buttons')[1].style.setProperty("--display", "flex");
-});
-ProductHover1.addEventListener('mouseout', function () {
-  document.querySelectorAll('.product-card')[1].style.setProperty("--filter", "none");
-  document.querySelectorAll('.product-card-image')[1].style.setProperty("--display", "flex");
-  document.querySelectorAll('.product-card-buttons')[1].style.setProperty("--display", "none");
-});
+var resultProductHover = {};
+for (let i = 0; i <= n-1; i++) {
+  resultProductHover["ProductHover" + i] = document.querySelectorAll('.product-card')[i];
+  resultProductHover["ProductHover" + i].addEventListener('mouseover', function () {
+    document.querySelectorAll('.product-card')[i].style.setProperty("--filter", "drop-shadow(0 4px 13px rgba(0, 0, 0, 0.25))");
+    document.querySelectorAll('.product-image')[i].style.setProperty("--display", "none");
+    document.querySelectorAll('.product-card-buttons')[i].style.setProperty("--display", "flex");
+  });
+  resultProductHover["ProductHover" + i].addEventListener('mouseout', function () {
+    document.querySelectorAll('.product-card')[i].style.setProperty("--filter", "none");
+    document.querySelectorAll('.product-image')[i].style.setProperty("--display", "inline-block");
+    document.querySelectorAll('.product-card-buttons')[i].style.setProperty("--display", "none");
+  });
+}
 
-var ProductHover2 = document.querySelectorAll('.product-card')[2];
-ProductHover2.addEventListener('mouseover', function () {
-  document.querySelectorAll('.product-card')[2].style.setProperty("--filter", "drop-shadow(0 4px 13px rgba(0, 0, 0, 0.25))");
-  document.querySelectorAll('.product-card-image')[2].style.setProperty("--display", "none");
-  document.querySelectorAll('.product-card-buttons')[2].style.setProperty("--display", "flex");
-});
-ProductHover2.addEventListener('mouseout', function () {
-  document.querySelectorAll('.product-card')[2].style.setProperty("--filter", "none");
-  document.querySelectorAll('.product-card-image')[2].style.setProperty("--display", "flex");
-  document.querySelectorAll('.product-card-buttons')[2].style.setProperty("--display", "none");
-});
+var resultProductBuy = {};
+var basketQty = 0;
+for (let i = 0; i <= n-1; i++) {
+  resultProductBuy["BuyAction" + i] = document.querySelectorAll('.buy-btn')[i];
+  resultProductBuy["BuyAction" + i].addEventListener('click', function () {
+    if (resultProductBuy["BuyAction" + i].value == "off") {
+      resultProductBuy["BuyAction" + i].innerHTML = "Удалить из корзины";
+      document.querySelectorAll('.product-button')[i].style.setProperty("--display-basket", "flex");
+      resultProductBuy["BuyAction" + i].value = "on";
+      basketQty = basketQty + 1;
+      document.querySelector('.basket-btn').style.setProperty("--margin-right", "44px");
+      document.querySelector('.bookmark-btn').style.setProperty("--margin-right", "48px");
 
-var ProductHover3 = document.querySelectorAll('.product-card')[3];
-ProductHover3.addEventListener('mouseover', function () {
-  document.querySelectorAll('.product-card')[3].style.setProperty("--filter", "drop-shadow(0 4px 13px rgba(0, 0, 0, 0.25))");
-  document.querySelectorAll('.product-card-image')[3].style.setProperty("--display", "none");
-  document.querySelectorAll('.product-card-buttons')[3].style.setProperty("--display", "flex");
-});
-ProductHover3.addEventListener('mouseout', function () {
-  document.querySelectorAll('.product-card')[3].style.setProperty("--filter", "none");
-  document.querySelectorAll('.product-card-image')[3].style.setProperty("--display", "flex");
-  document.querySelectorAll('.product-card-buttons')[3].style.setProperty("--display", "none");
-});
+      document.querySelector('.basket-qty').innerHTML = basketQty;
 
-var ProductHover4 = document.querySelectorAll('.product-card')[4];
-ProductHover4.addEventListener('mouseover', function () {
-  document.querySelectorAll('.product-card')[4].style.setProperty("--filter", "drop-shadow(0 4px 13px rgba(0, 0, 0, 0.25))");
-  document.querySelectorAll('.product-card-image')[4].style.setProperty("--display", "none");
-  document.querySelectorAll('.product-card-buttons')[4].style.setProperty("--display", "flex");
-});
-ProductHover4.addEventListener('mouseout', function () {
-  document.querySelectorAll('.product-card')[4].style.setProperty("--filter", "none");
-  document.querySelectorAll('.product-card-image')[4].style.setProperty("--display", "flex");
-  document.querySelectorAll('.product-card-buttons')[4].style.setProperty("--display", "none");
-});
+      console.log("productQty = " + basketQty);
+      return;
+    }
+    if (resultProductBuy["BuyAction" + i].value == "on") {
+      resultProductBuy["BuyAction" + i].innerHTML = "Купить";
+      document.querySelectorAll('.product-button')[i].style.setProperty("--display-basket", "none");
+      resultProductBuy["BuyAction" + i].value = "off";
+      basketQty = basketQty - 1;
+      if (basketQty > 0) {
+        document.querySelector('.basket-qty').innerHTML = basketQty;
+      }
+      else {
+        document.querySelector('.basket-qty').innerHTML = '';
+        if (basketQty == 0 && favoriteQty == 0) {
+          document.querySelector('.basket-btn').style.setProperty("--margin-right", "26px");
+          document.querySelector('.bookmark-btn').style.setProperty("--margin-right", "20px");
+        }
+      }
+      console.log("productQty = " + basketQty);
+      return;
+    }
+  });
+}
 
-var ProductHover5 = document.querySelectorAll('.product-card')[5];
-ProductHover5.addEventListener('mouseover', function () {
-  document.querySelectorAll('.product-card')[5].style.setProperty("--filter", "drop-shadow(0 4px 13px rgba(0, 0, 0, 0.25))");
-  document.querySelectorAll('.product-card-image')[5].style.setProperty("--display", "none");
-  document.querySelectorAll('.product-card-buttons')[5].style.setProperty("--display", "flex");
-});
-ProductHover5.addEventListener('mouseout', function () {
-  document.querySelectorAll('.product-card')[5].style.setProperty("--filter", "none");
-  document.querySelectorAll('.product-card-image')[5].style.setProperty("--display", "flex");
-  document.querySelectorAll('.product-card-buttons')[5].style.setProperty("--display", "none");
-});
+var resultProductMark = {};
+var favoriteQty = 0;
+for (let i = 0; i <= n-1; i++) {
+  resultProductMark["MarkAction" + i] = document.querySelectorAll('.marker-btn')[i];
+  resultProductMark["MarkAction" + i].addEventListener('click', function () {
+    if (resultProductMark["MarkAction" + i].value == "off") {
+      resultProductMark["MarkAction" + i].innerHTML = "Удалить закладку";
+      document.querySelectorAll('.product-button')[i].style.setProperty("--display-marker", "flex");
+      resultProductMark["MarkAction" + i].value = "on";
+      favoriteQty = favoriteQty + 1;
+      document.querySelector('.basket-btn').style.setProperty("--margin-right", "44px");
+      document.querySelector('.bookmark-btn').style.setProperty("--margin-right", "48px");
+      document.querySelector('.favorite-qty').innerHTML = favoriteQty;
+      console.log("favoriteQty = " + favoriteQty);
+      return;
+    }
+    if (resultProductMark["MarkAction" + i].value == "on") {
+      resultProductMark["MarkAction" + i].innerHTML = "В закладки";
+      document.querySelectorAll('.product-button')[i].style.setProperty("--display-marker", "none");
+      resultProductMark["MarkAction" + i].value = "off";
+      favoriteQty = favoriteQty - 1;
+      if (favoriteQty > 0) {
+        document.querySelector('.favorite-qty').innerHTML = favoriteQty;
+      }
+      else {
+        document.querySelector('.favorite-qty').innerHTML = '';
+        if (basketQty == 0 && favoriteQty == 0) {
+          document.querySelector('.basket-btn').style.setProperty("--margin-right", "26px");
+          document.querySelector('.bookmark-btn').style.setProperty("--margin-right", "20px");
+        }
+      }
+      console.log("favoriteQty = " + favoriteQty);
+      return;
+    }
+  });
+}
 
-var ProductHover6 = document.querySelectorAll('.product-card')[6];
-ProductHover6.addEventListener('mouseover', function () {
-  document.querySelectorAll('.product-card')[6].style.setProperty("--filter", "drop-shadow(0 4px 13px rgba(0, 0, 0, 0.25))");
-  document.querySelectorAll('.product-card-image')[6].style.setProperty("--display", "none");
-  document.querySelectorAll('.product-card-buttons')[6].style.setProperty("--display", "flex");
-});
-ProductHover6.addEventListener('mouseout', function () {
-  document.querySelectorAll('.product-card')[6].style.setProperty("--filter", "none");
-  document.querySelectorAll('.product-card-image')[6].style.setProperty("--display", "flex");
-  document.querySelectorAll('.product-card-buttons')[6].style.setProperty("--display", "none");
-});
 
-var ProductHover7 = document.querySelectorAll('.product-card')[7];
-ProductHover7.addEventListener('mouseover', function () {
-  document.querySelectorAll('.product-card')[7].style.setProperty("--filter", "drop-shadow(0 4px 13px rgba(0, 0, 0, 0.25))");
-  document.querySelectorAll('.product-card-image')[7].style.setProperty("--display", "none");
-  document.querySelectorAll('.product-card-buttons')[7].style.setProperty("--display", "flex");
-});
-ProductHover7.addEventListener('mouseout', function () {
-  document.querySelectorAll('.product-card')[7].style.setProperty("--filter", "none");
-  document.querySelectorAll('.product-card-image')[7].style.setProperty("--display", "flex");
-  document.querySelectorAll('.product-card-buttons')[7].style.setProperty("--display", "none");
-});
 
-var ProductHover8 = document.querySelectorAll('.product-card')[8];
-ProductHover8.addEventListener('mouseover', function () {
-  document.querySelectorAll('.product-card')[8].style.setProperty("--filter", "drop-shadow(0 4px 13px rgba(0, 0, 0, 0.25))");
-  document.querySelectorAll('.product-card-image')[8].style.setProperty("--display", "none");
-  document.querySelectorAll('.product-card-buttons')[8].style.setProperty("--display", "flex");
-});
-ProductHover8.addEventListener('mouseout', function () {
-  document.querySelectorAll('.product-card')[8].style.setProperty("--filter", "none");
-  document.querySelectorAll('.product-card-image')[8].style.setProperty("--display", "flex");
-  document.querySelectorAll('.product-card-buttons')[8].style.setProperty("--display", "none");
-});
+////////// Focus/Hover на SELECT //////
 
-var ProductHover9 = document.querySelectorAll('.product-card')[9];
-ProductHover9.addEventListener('mouseover', function () {
-  document.querySelectorAll('.product-card')[9].style.setProperty("--filter", "drop-shadow(0 4px 13px rgba(0, 0, 0, 0.25))");
-  document.querySelectorAll('.product-card-image')[9].style.setProperty("--display", "none");
-  document.querySelectorAll('.product-card-buttons')[9].style.setProperty("--display", "flex");
-});
-ProductHover9.addEventListener('mouseout', function () {
-  document.querySelectorAll('.product-card')[9].style.setProperty("--filter", "none");
-  document.querySelectorAll('.product-card-image')[9].style.setProperty("--display", "flex");
-  document.querySelectorAll('.product-card-buttons')[9].style.setProperty("--display", "none");
-});
+var SelectEvent = document.querySelector('.product-options');
+SelectEvent.addEventListener('focus', SelectFocus);
+SelectEvent.addEventListener('blur', SelectNormalize);
+SelectEvent.addEventListener('mouseover', SelectHover);
+SelectEvent.addEventListener('mouseout', SelectNormalize);
+
+function SelectFocus() {
+  SelectEvent.style.setProperty("--border", "1px solid #63A63E");
+  SelectEvent.style.setProperty("--outline", "1px solid #FFBF47");
+  document.querySelector('.sort-products').style.setProperty("--background-image", 'url("../images/select-green.svg")');
+  SelectEvent.style.setProperty("--outline", "1px solid #FFBF47");
+}
+
+function SelectNormalize() {
+  SelectEvent.style.setProperty("--border", "1px solid #3D546F");
+  SelectEvent.style.setProperty("--outline", "none");
+  document.querySelector('.sort-products').style.setProperty("--background-image", 'url("../images/select-icon.svg")');
+}
+
+function SelectHover() {
+  SelectEvent.style.setProperty("--border", "1px solid #63A63E");
+}

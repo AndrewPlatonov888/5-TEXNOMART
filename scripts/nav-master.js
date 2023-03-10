@@ -1,7 +1,5 @@
-
 var SearchFormEvent = document.getElementById('site-search');
 SearchFormEvent.addEventListener('click', SearchToggleFunction);
-
 
 function SearchToggleFunction() {
   if (document.getElementById("search-btn").value == "off") {
@@ -24,12 +22,12 @@ function SearchToggleFunction() {
         document.querySelector('.search-marker').style.setProperty("--display", "flex"); // возвращаем текст "Поиск"
         document.querySelector('.search-button').style.setProperty("--background", "url('../images/loupe-icon.svg')"); // лупу красим в белый
         document.querySelector('.search-button').style.setProperty("--opacity", "0.3"); // лупу красим в белый
+        console.log('сработала функции закрытия search-line');
       }
       else {
         ; // ничего не делаем
       }
     });
-
   }
   else {
     ; // ничего не делаем
@@ -42,51 +40,101 @@ LoginEvent.addEventListener('click', LoginToggleFunction);
 function LoginToggleFunction() {
   if (document.getElementById("login-btn").value == "off") {
     document.getElementById("login-btn").value = "on";
-    // document.querySelector('.login-button').style.setProperty("--background-color", "#FF4A78"); //кнопку в покое сделали красной
-    // document.querySelector('.login-button').style.setProperty("--background-image", "url('../images/logged-icon.svg')"); //делаем иконку белой
-    // document.querySelector('.login-button').style.setProperty("--color", "#FCFCFC");
-    // document.querySelector('.login-button').style.setProperty("--background-hover", "#FF4A78"); // белые фоны заменили красным
-    // document.querySelector('.login-button').style.setProperty("--background-active", "#FF4A78"); // белые фоны заменили красным
-    // document.querySelector('.login-button').style.setProperty("--opacity-hover", "0.6");  // опасити 0.6 на ховер
-    // document.querySelector('.login-button').style.setProperty("--opacity-active", "0.3");  // опасити 0.3 на актив
-    // document.querySelector('.login-button').style.setProperty("--border", "2px solid #000000"); //сделали фокусу ЧЕРНЫЙ бордер
-    // document.querySelector('.login-button').style.setProperty("--display", "flex");
     document.querySelector('.login-form').style.setProperty("--display", "flex");
-
-    // закрытие элемента по клику вне элемента
-    document.addEventListener("mouseup", function (event) {
-      var obj = document.querySelector('.login-form');
-      var loginbtn = document.querySelector('.login-button');
-      if (!obj.contains(event.target) && !loginbtn.contains(event.target)) {
-        document.querySelector('.login-form').style.setProperty("--display", "none");
-        document.getElementById("login-btn").value = "off";
-        //все св-ва возвращаем на исходные позиции
-        // document.querySelector('.login-button').style.setProperty("--background-color", "rgba(252, 252, 252, 0.3)");
-        // document.querySelector('.login-button').style.setProperty("--background-image", "url('../images/login-icon.svg')");
-        // document.querySelector('.login-button').style.setProperty("--color", "#2D3440");
-        // document.querySelector('.login-button').style.setProperty("--background-hover", "rgba(252, 252, 252, 0.5)");
-        // document.querySelector('.login-button').style.setProperty("--background-active", " rgba(252, 252, 252, 1)");
-        // document.querySelector('.login-button').style.setProperty("--opacity-hover", "1");
-        // document.querySelector('.login-button').style.setProperty("--opacity-active", "1");
-        // document.querySelector('.login-button').style.setProperty("--border", "2px solid #2D3440");
-      }
-      else {
-        //  alert("Обнаружен ВНУТРЕННИЙ клик!");
-        ; //иначе, если клик состоялся по элементу ---> тогда НИЧЕГО не делаем
-      }
-    });
+    document.getElementById("login-on").reset();
   }
   else {
     document.querySelector('.login-form').style.setProperty("--display", "none");
     document.getElementById("login-btn").value = "off";
-    //все св-ва возвращаем на исходные позиции
-    // document.querySelector('.login-button').style.setProperty("--background-color", "rgba(252, 252, 252, 0.3)");
-    // document.querySelector('.login-button').style.setProperty("--background-image", "url('../images/login-icon.svg')");
-    // document.querySelector('.login-button').style.setProperty("--color", "#2D3440");
-    // document.querySelector('.login-button').style.setProperty("--background-hover", "rgba(252, 252, 252, 0.5)");
-    // document.querySelector('.login-button').style.setProperty("--background-active", " rgba(252, 252, 252, 1)");
-    // document.querySelector('.login-button').style.setProperty("--opacity-hover", "1");
-    // document.querySelector('.login-button').style.setProperty("--opacity-active", "1");
-    // document.querySelector('.login-button').style.setProperty("--border", "2px solid #2D3440");
   }
 }
+
+// Обработчик на кнопку выход ("разлогинится")
+var GoodbyeEvent = document.querySelector('.goodbye-button');
+GoodbyeEvent.addEventListener('click', GoodbyeToggleFunction);
+
+function GoodbyeToggleFunction() {
+  document.querySelector('.goodbye-form').style.setProperty("--display", "flex");
+}
+
+// закрытие логин-формы после submit'a и открытие wellcome-формы
+const myform = document.getElementById("login-on");
+myform.addEventListener("submit", logSubmit);
+function logSubmit(event) {
+  if (document.querySelector('.wellcome-transparent').value == "off") {
+    document.getElementById('login-on').submit();
+    myform.style.setProperty('--display', 'none');
+    document.getElementById("login-btn").value = "off";
+    document.querySelector('.wellcome-form').style.setProperty("--display", "flex");
+    document.querySelector('.wellcome-transparent').value = "on";
+    document.querySelector('.new-user-container').style.setProperty("--display", "none");
+    document.querySelector('.logged-user-container').style.setProperty("--display", "flex");
+  };
+}
+
+
+// закрытие wellcome-формы после submit'a
+const myWellcomeForm = document.getElementById("wellcome-on");
+myWellcomeForm.addEventListener("submit", WellcomeSubmit);
+function WellcomeSubmit(event) {
+  document.getElementById('wellcome-on').submit();
+  myWellcomeForm.style.setProperty('--display', 'none');
+  document.querySelector('.wellcome-transparent').value = "off";
+  console.log(document.querySelector('.wellcome-transparent').value);
+  document.querySelector('.logged-user-container').style.setProperty("--display", "none");
+  document.querySelector('.new-user-container').style.setProperty("--display", "flex");
+  GoodbyeToggleFunction();
+  return;
+}
+
+
+// обработчик на кнопку закрытия логин-формы
+var LoginCloseEvent = document.querySelector('.login-close');
+LoginCloseEvent.addEventListener('click', function () {
+  document.querySelector('.login-form').style.setProperty("--display", "none");
+  document.getElementById("login-btn").value = "off";
+
+});
+
+// обработчик на кнопку закрытия wellcome-формы
+var WellcomeCloseEvent = document.querySelector('.wellcome-close');
+WellcomeCloseEvent.addEventListener('click', function () {
+  if (document.querySelector('.wellcome-transparent').value == "on") {
+    document.querySelector('.wellcome-form').style.setProperty("--display", "none");
+    document.querySelector('.wellcome-transparent').value = "off";
+    return;
+  }
+});
+
+// обработчик на кнопку закрытия goodbye-формы
+var GoodbyeCloseEvent = document.querySelector('.goodbye-close');
+GoodbyeCloseEvent.addEventListener('click', function () {
+  document.querySelector('.goodbye-form').style.setProperty("--display", "none");
+  document.querySelector('.logged-user-container').style.setProperty("--display", "none");
+  document.querySelector('.new-user-container').style.setProperty("--display", "flex");
+});
+
+// закрытие окон по нажатию клавиши ESC
+document.addEventListener('keydown', function (e) {
+  if (e.keyCode == 27) { // код клавиши Escape, но можно использовать e.key
+    //закрываем логин, если он открыт
+    if (document.getElementById("login-btn").value == "on") {
+      document.querySelector('.login-form').style.setProperty("--display", "none");
+      document.getElementById("login-btn").value = "off";
+      return;
+    }
+    //закрываем Wellcome, если он открыт
+    if (document.querySelector('.wellcome-transparent').value == "on") {
+      document.querySelector('.wellcome-form').style.setProperty("--display", "none");
+      document.querySelector('.wellcome-transparent').value = "off"
+      return;
+    }
+    //закрываем Goodbye, если он открыт
+    if (document.querySelector('.wellcome-transparent').value == "off" && document.getElementById("login-btn").value == "off") {
+      document.querySelector('.goodbye-form').style.setProperty("--display", "none");
+      document.querySelector('.logged-user-container').style.setProperty("--display", "none");
+      document.querySelector('.new-user-container').style.setProperty("--display", "flex");
+      return;
+    }
+  }
+});
